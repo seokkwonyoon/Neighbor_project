@@ -5,6 +5,24 @@ import json
 from typing import List, Dict, Any
 from fastapi import FastAPI, HTTPException
 
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+location_group = None
+list_of_location = None
+
+@app.on_event("startup")
+def load_data():
+    """서비스 시작 시 listings.json을 읽어 전역 상태 초기화"""
+    global location_group, list_of_location
+    df = pd.read_json(BASE_DIR / "listings.json")
+    df.set_index("id", inplace=True)
+    location_group = df.groupby("location_id")
+    list_of_location = list(location_group.groups)
+    print("[startup] listings loaded:", len(df), "rows,", len(list_of_location), "locations")
+
+
+
 
 app = FastAPI(title="Neighbor Local API")
 
