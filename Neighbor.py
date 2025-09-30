@@ -10,6 +10,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent
 location_group = None
 list_of_location = None
+app = FastAPI(title="Neighbor Local API")
 
 @app.on_event("startup")
 def load_data():
@@ -24,7 +25,7 @@ def load_data():
 
 
 
-app = FastAPI(title="Neighbor Local API")
+
 
 @app.post("/")
 def solve(payload: List[Dict[str, Any]]):
