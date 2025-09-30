@@ -36,15 +36,6 @@ def solve(payload: List[Dict[str, Any]]):
         raise HTTPException(status_code=400, detail=f"Invalid payload: {e}")
 
 
-    try:
-        _ = location_group
-        _ = list_of_location
-    except NameError:
-        raise HTTPException(
-            status_code=500,
-            detail="Error ocurr"
-        )
-
     results: List[Dict[str, Any]] = []
     for loc_id in list_of_location:
         sub_location = location_group.get_group(loc_id)
